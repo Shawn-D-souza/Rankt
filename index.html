@@ -10,36 +10,44 @@
     <script src="script.js" defer></script>
   </head>
   <body>
-    <header>
-      <h1>Rankt</h1>
-      <p>Rank anything, one comparison at a time</p>
-    </header>
-    <main>
-      <section id="inputSection">
-        <label for="itemInput">Enter your items:</label>
-        <textarea
-          id="itemInput"
-          placeholder="Item 1&#10;Item 2&#10;Item 3&#10;..."
-        ></textarea>
-        <button id="startRankingBtn">Start Ranking</button>
-      </section>
+    <div class="container">
+      <header>
+        <h1>Rankt</h1>
+        <p>Rank anything, one comparison at a time</p>
+      </header>
+      <main>
+        <section id="inputSection">
+          <label for="itemInput">Enter your items:</label>
+          <textarea
+            id="itemInput"
+            placeholder="Item 1&#10;Item 2&#10;Item 3&#10;..."
+          ></textarea>
+          <div class="btn-grp">
+            <button id="startRankingBtn">Start Ranking</button>
+          </div>
+        </section>
 
-      <section id="comparisonSection">
-        <h2>Choose the best option:</h2>
-        <div id="comparisonContainer">
-          <!-- Options will be dynamically inserted here -->
-        </div>
-      </section>
-      <button id="startOverBtn">Start Over</button>
-      <button id="newRankingBtn">New Ranking</button>
+        <section id="comparisonSection">
+          <h2>Choose the best option:</h2>
+          <div id="comparisonContainer">
+            <!-- Options will be dynamically inserted here -->
+          </div>
+          <div class="btn-grp">
+            <button id="startOverBtn">Start Over</button>
+            <button id="newRankingBtn">New Ranking</button>
+          </div>
+        </section>
 
-      <section id="resultsSection">
-        <h2>Ranking Complete!</h2>
-        <div id="resultsList">
-          <!-- Ranked items will be displayed here -->
-        </div>
-        <button id="newRankingBtn">New Ranking</button>
-      </section>
-    </main>
+        <section id="resultSection">
+          <h2>Ranking Complete!</h2>
+          <div id="resultList">
+            <!-- Ranked items will be displayed here -->
+          </div>
+          <div class="btn-grp">
+            <button id="newRankingBtn">New Ranking</button>
+          </div>
+        </section>
+      </main>
+    </div>
   </body>
 </html>
