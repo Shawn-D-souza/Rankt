@@ -1,21 +1,26 @@
-const elements = {
-  inputSection: document.getElementById("inputSection"),
-  comparisonSection: document.getElementById("comparisonSection"),
-  resultSection: document.getElementById("resultSection"),
+// DOM Elements
+const inputSection = document.getElementById("inputSection");
+const comparisonSection = document.getElementById("comparisonSection");
+const resultSection = document.getElementById("resultSection");
 
-  itemInput: document.getElementById("itemInput"),
+const itemInput = document.getElementById("itemInput");
 
-  startRankingBtn: document.getElementById("startRankingBtn"),
-  startOverBtn: document.getElementById("startOverBtn"),
-  newRankingBtn: document.getElementById("newRankingBtn"),
-};
+const startRankingBtn = document.getElementById("startRankingBtn");
+const startOverBtn = document.getElementById("startOverBtn");
+const newRankingBtn = document.getElementById("newRankingBtn");
+
+const comparisonContainer = document.getElementById("comparisonContainer");
+const resultContainer = document.getElementById("resultContainer");
+
+// Global Variables
+let itemsObjects = [];
 
 function init() {
-  elements.startRankingBtn.addEventListener("click", startRanking);
+  startRankingBtn.addEventListener("click", startRanking);
 }
 
 function startRanking() {
-  const itemsText = elements.itemInput.value.trim();
+  const itemsText = itemInput.value.trim();
 
   const items = itemsText
     .split("\n")
@@ -27,8 +32,53 @@ function startRanking() {
     return;
   }
 
-  elements.inputSection.style.display = "none";
-  elements.comparisonSection.style.display = "block";
+  inputSection.style.display = "none";
+  comparisonSection.style.display = "block";
+
+  itemsObjects = items.map((name) => ({ name: name, score: 0 }));
+
+  nextComparisioins();
 }
 
+function nextComparisioins() {
+  comparisonContainer.innerHTML = "";
+
+  const tiedItems = findNextComparisons();
+
+  if (tiedItems) {
+    tiedItems.forEach((item) => {
+      const itemBtn = document.createElement("button");
+      itemBtn.className = "item-btn";
+      itemBtn.textContent = item.name;
+
+      itemBtn.addEventListener("click", handleChoice);
+
+      comparisonContainer.appendChild(itemBtn);
+    });
+  } else {
+    console.log("Ranking complete");
+  }
+}
+function handleChoice(event) {
+  const chosenItemName = event.target.textContent;
+  const chosenItem = itemsObjects.find((item) => item.name === chosenItemName);
+  if (chosenItem) {
+    chosenItem.score += 1;
+  }
+  nextComparisioins();
+}
+
+function findNextComparisons() {
+  for (let i = 0; i < itemsObjects.length; i++) {
+    for (let j = i + 1; j < itemsObjects.length; j++) {
+      if (itemsObjects[i].score === itemsObjects[j].score) {
+        const score = itemsObjects[i].score;
+        return (tiedItems = itemsObjects.filter(
+          (item) => item.score === score
+        ));
+      }
+    }
+  }
+  return null;
+}
 init();
