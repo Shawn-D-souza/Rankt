@@ -12,14 +12,11 @@ const newRankingBtn = document.getElementById("newRankingBtn");
 const comparisonContainer = document.getElementById("comparisonContainer");
 const resultContainer = document.getElementById("resultContainer");
 
-// Global Variables
-let itemsObjects = [];
-
 function init() {
   startRankingBtn.addEventListener("click", startRanking);
 }
 
-function startRanking() {
+async function startRanking() {
   const itemsText = itemInput.value.trim();
 
   const items = itemsText
@@ -35,50 +32,61 @@ function startRanking() {
   inputSection.style.display = "none";
   comparisonSection.style.display = "block";
 
-  itemsObjects = items.map((name) => ({ name: name, score: 0 }));
+  const rankedItems = await mergeSort(items);
 
-  nextComparisioins();
+  console.log("Final Ranked Items:", rankedItems);
 }
 
-function nextComparisioins() {
-  comparisonContainer.innerHTML = "";
-
-  const tiedItems = findNextComparisons();
-
-  if (tiedItems) {
-    tiedItems.forEach((item) => {
-      const itemBtn = document.createElement("button");
-      itemBtn.className = "item-btn";
-      itemBtn.textContent = item.name;
-
-      itemBtn.addEventListener("click", handleChoice);
-
-      comparisonContainer.appendChild(itemBtn);
-    });
-  } else {
-    console.log("Ranking complete");
+async function mergeSort(items) {
+  if (items.length <= 1) {
+    return items;
   }
-}
-function handleChoice(event) {
-  const chosenItemName = event.target.textContent;
-  const chosenItem = itemsObjects.find((item) => item.name === chosenItemName);
-  if (chosenItem) {
-    chosenItem.score += 1;
-  }
-  nextComparisioins();
+
+  const mid = Math.floor(items.length / 2);
+  const left = items.slice(0, mid);
+  const right = items.slice(mid);
+
+  const sortedLeft = await mergeSort(left);
+  const sortedRight = await mergeSort(right);
+
+  return await merge(sortedLeft, sortedRight);
 }
 
-function findNextComparisons() {
-  for (let i = 0; i < itemsObjects.length; i++) {
-    for (let j = i + 1; j < itemsObjects.length; j++) {
-      if (itemsObjects[i].score === itemsObjects[j].score) {
-        const score = itemsObjects[i].score;
-        return (tiedItems = itemsObjects.filter(
-          (item) => item.score === score
-        ));
-      }
+async function merge(left, right) {
+  const sortedItems = [];
+  let leftIndex = 0;
+  let rightIndex = 0;
+
+  while (leftIndex < left.length && rightIndex < right.length) {
+    const winner = await getUserChoice(left[leftIndex], right[rightIndex]);
+    if (winner === left[leftIndex]) {
+      sortedItems.push(left[leftIndex]);
+      leftIndex++;
+    } else {
+      sortedItems.push(right[rightIndex]);
+      rightIndex++;
     }
   }
-  return null;
+
+  return sortedItems
+    .concat(left.slice(leftIndex))
+    .concat(right.slice(rightIndex));
 }
+
+function getUserChoice(item1, item2) {
+  return new Promise((resolve) => {
+    const promptText = `Which do you prefer?\n1: ${item1}\n2: ${item2}`;
+    
+    let choice = null;
+
+    while(true){
+      choice = prompt(promptText);
+      if(choice === "1" || choice === "2"){
+        break;
+      }
+    }
+    resolve(choice === "1" ? item1 : item2);
+  });
+}
+
 init();
