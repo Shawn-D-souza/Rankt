@@ -7,7 +7,7 @@ const itemInput = document.getElementById("itemInput");
 
 const startRankingBtn = document.getElementById("startRankingBtn");
 const startOverBtn = document.getElementById("startOverBtn");
-const newRankingBtn = document.getElementById("newRankingBtn");
+const newRankingBtn = document.getElementsByClassName("newRankingBtn");
 
 const comparisonContainer = document.getElementById("comparisonContainer");
 const resultContainer = document.getElementById("resultContainer");
@@ -31,6 +31,7 @@ async function startRanking() {
 
   inputSection.style.display = "none";
   comparisonSection.style.display = "block";
+  resultSection.style.display = "none";
 
   const rankedItems = await mergeSort(items);
 
@@ -75,17 +76,20 @@ async function merge(left, right) {
 
 function getUserChoice(item1, item2) {
   return new Promise((resolve) => {
-    const promptText = `Which do you prefer?\n1: ${item1}\n2: ${item2}`;
-    
-    let choice = null;
+    comparisonContainer.innerHTML = "";
 
-    while(true){
-      choice = prompt(promptText);
-      if(choice === "1" || choice === "2"){
-        break;
-      }
-    }
-    resolve(choice === "1" ? item1 : item2);
+    const btn1 = document.createElement("button");
+    btn1.textContent = item1;
+    btn1.className = "choice-btn";
+    btn1.onclick = () => resolve(item1);
+    
+    const btn2 = document.createElement("button");
+    btn2.textContent = item2;
+    btn2.className = "choice-btn";
+    btn2.onclick = () => resolve(item2);
+    
+    comparisonContainer.appendChild(btn1);
+    comparisonContainer.appendChild(btn2);
   });
 }
 
