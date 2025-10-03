@@ -15,10 +15,12 @@ const resultContainer = document.getElementById("resultContainer");
 
 function init() {
   startRankingBtn.addEventListener("click", startRanking);
-  
+  startOverBtn.addEventListener("click", startOver);  
   newRankingBtn1.addEventListener("click", newRanking);
   newRankingBtn2.addEventListener("click", newRanking);
 }
+
+let initialItems = [];
 
 async function startRanking() {
   const itemsText = itemInput.value.trim();
@@ -33,11 +35,13 @@ async function startRanking() {
     return;
   }
 
+  initialItems = [...items];
+
   inputSection.style.display = "none";
   comparisonSection.style.display = "block";
   resultSection.style.display = "none";
 
-  const rankedItems = await mergeSort(items);
+  const rankedItems = await mergeSort(initialItems);
 
   console.log("Final Ranked Items:", rankedItems);
 }
@@ -105,5 +109,16 @@ function newRanking() {
   inputSection.style.display = "block";
   comparisonSection.style.display = "none";
   resultSection.style.display = "none";
+}
+async function startOver() {
+  comparisonContainer.innerHTML = "";
+  resultContainer.innerHTML = "";
+  
+  inputSection.style.display = "none";
+  comparisonSection.style.display = "block";
+  resultSection.style.display = "none";
+
+  const rankedItems = await mergeSort(initialItems);
+  console.log("Final Ranked Items:", rankedItems);
 }
 init();
