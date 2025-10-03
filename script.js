@@ -7,13 +7,17 @@ const itemInput = document.getElementById("itemInput");
 
 const startRankingBtn = document.getElementById("startRankingBtn");
 const startOverBtn = document.getElementById("startOverBtn");
-const newRankingBtn = document.getElementsByClassName("newRankingBtn");
+const newRankingBtn1 = document.getElementById("newRankingBtn1");
+const newRankingBtn2 = document.getElementById("newRankingBtn2");
 
 const comparisonContainer = document.getElementById("comparisonContainer");
 const resultContainer = document.getElementById("resultContainer");
 
 function init() {
   startRankingBtn.addEventListener("click", startRanking);
+  
+  newRankingBtn1.addEventListener("click", newRanking);
+  newRankingBtn2.addEventListener("click", newRanking);
 }
 
 async function startRanking() {
@@ -93,4 +97,13 @@ function getUserChoice(item1, item2) {
   });
 }
 
+function newRanking() {
+  itemInput.value = "";
+  comparisonContainer.innerHTML = "";
+  resultContainer.innerHTML = "";
+
+  inputSection.style.display = "block";
+  comparisonSection.style.display = "none";
+  resultSection.style.display = "none";
+}
 init();
