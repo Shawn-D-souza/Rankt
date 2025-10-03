@@ -72,6 +72,7 @@ h2 {
   margin-bottom: 1rem;
   margin-top: 0.5rem;
   font-size: 1.8rem;
+  text-align: center;
 }
 p {
   font-size: var(--font-size-base);
@@ -153,4 +154,46 @@ button:hover {
   border-color: var(--color-primary);
   background-color: #f0e6f6;
   color: var(--color-primary);
+}
+
+#resultContainer {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.ranked-list {
+  list-style: none;
+  counter-reset: ranked-items;
+  width: 100%;
+  max-width: 700px;
+}
+
+.ranked-item {
+  counter-increment: ranked-items;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  padding: 1rem 1rem 1rem 3.5rem;
+  margin-bottom: 0.75rem;
+  font-size: var(--font-size-large);
+  color: var(--color-text-secondary);
+  position: relative;
+}
+
+.ranked-item::before {
+  content: counter(ranked-items);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2.5rem;
+  height: 100%;
+  background-color: var(--color-primary);
+  color: white;
+  font-weight: var(--font-weight-bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
 }

@@ -15,7 +15,7 @@ const resultContainer = document.getElementById("resultContainer");
 
 function init() {
   startRankingBtn.addEventListener("click", startRanking);
-  startOverBtn.addEventListener("click", startOver);  
+  startOverBtn.addEventListener("click", startOver);
   newRankingBtn1.addEventListener("click", newRanking);
   newRankingBtn2.addEventListener("click", newRanking);
 }
@@ -43,7 +43,9 @@ async function startRanking() {
 
   const rankedItems = await mergeSort(initialItems);
 
-  console.log("Final Ranked Items:", rankedItems);
+  comparisonSection.style.display = "none";
+  resultSection.style.display = "block";
+  displayResults(rankedItems); // Call the new function to show the list
 }
 
 async function mergeSort(items) {
@@ -90,15 +92,31 @@ function getUserChoice(item1, item2) {
     btn1.textContent = item1;
     btn1.className = "choice-btn";
     btn1.onclick = () => resolve(item1);
-    
+
     const btn2 = document.createElement("button");
     btn2.textContent = item2;
     btn2.className = "choice-btn";
     btn2.onclick = () => resolve(item2);
-    
+
     comparisonContainer.appendChild(btn1);
     comparisonContainer.appendChild(btn2);
   });
+}
+
+function displayResults(rankedItems) {
+  resultContainer.innerHTML = "";
+
+  const ol = document.createElement("ol");
+  ol.className = "ranked-list";
+
+  rankedItems.forEach((item) => {
+    const li = document.createElement("li");
+    li.className = "ranked-item";
+    li.textContent = item;
+    ol.appendChild(li);
+  });
+
+  resultContainer.appendChild(ol);
 }
 
 function newRanking() {
@@ -113,12 +131,15 @@ function newRanking() {
 async function startOver() {
   comparisonContainer.innerHTML = "";
   resultContainer.innerHTML = "";
-  
+
   inputSection.style.display = "none";
   comparisonSection.style.display = "block";
   resultSection.style.display = "none";
 
   const rankedItems = await mergeSort(initialItems);
-  console.log("Final Ranked Items:", rankedItems);
+  
+  comparisonSection.style.display = "none";
+  resultSection.style.display = "block";
+  displayResults(rankedItems);
 }
 init();
